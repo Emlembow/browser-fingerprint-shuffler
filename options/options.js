@@ -61,6 +61,11 @@ async function loadSettings() {
     document.getElementById('useStrongKDF').checked = config.useStrongKDF !== false;
     document.getElementById('kdfIterations').value = config.kdfIterations || 1000;
 
+    // Rotation settings
+    document.getElementById('autoRotateFingerprint').checked = config.autoRotateFingerprint === true;
+    document.getElementById('rotationIntervalHours').value = config.rotationIntervalHours || 24;
+    document.getElementById('rotateOnStartup').checked = config.rotateOnStartup === true;
+
     // Screen
     document.getElementById('enableScreenProtection').checked = config.enableScreenProtection !== false;
     document.getElementById('useRealDistribution').checked = config.screen?.useRealDistribution !== false;
@@ -124,6 +129,11 @@ async function saveSettings() {
       useStrongKDF: document.getElementById('useStrongKDF').checked,
       kdfIterations: parseInt(document.getElementById('kdfIterations').value),
 
+      // Rotation
+      autoRotateFingerprint: document.getElementById('autoRotateFingerprint').checked,
+      rotationIntervalHours: parseInt(document.getElementById('rotationIntervalHours').value),
+      rotateOnStartup: document.getElementById('rotateOnStartup').checked,
+
       // Screen
       enableScreenProtection: document.getElementById('enableScreenProtection').checked,
       screen: {
@@ -181,6 +191,14 @@ async function saveSettings() {
     };
 
     await chrome.storage.local.set({ fpConfig: config });
+
+    // Notify background to update rotation alarms
+    try {
+      await chrome.runtime.sendMessage({ type: 'UPDATE_ROTATION_CONFIG' });
+    } catch (e) {
+      // Background might not be ready
+    }
+
     showStatus('Settings saved! Reload tabs for changes to take effect.', 'success');
   } catch (error) {
     console.error('Failed to save settings:', error);
@@ -384,6 +402,9 @@ function getDefaultConfig() {
     },
     useStrongKDF: true,
     kdfIterations: 1000,
-    useGaussianNoise: true
+    useGaussianNoise: true,
+    autoRotateFingerprint: false,
+    rotationIntervalHours: 24,
+    rotateOnStartup: false
   };
 }

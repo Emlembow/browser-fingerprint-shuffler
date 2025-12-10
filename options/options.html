@@ -86,6 +86,53 @@
 
         <div class="setting-group">
           <div class="setting-header">
+            <h3>Automatic Fingerprint Rotation</h3>
+            <p class="description">Automatically change your fingerprint on a schedule</p>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="autoRotateFingerprint">
+              <div class="setting-info">
+                <span class="setting-name">Enable Auto-Rotation</span>
+                <span class="setting-desc">Automatically rotate fingerprint at specified intervals</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label-inline">
+              <span class="setting-name">Rotation Interval:</span>
+              <select id="rotationIntervalHours">
+                <option value="1">1 Hour</option>
+                <option value="6">6 Hours</option>
+                <option value="12">12 Hours</option>
+                <option value="24" selected>24 Hours (Daily)</option>
+                <option value="72">3 Days</option>
+                <option value="168">7 Days (Weekly)</option>
+              </select>
+              <span class="setting-desc">How often to generate a new fingerprint</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="rotateOnStartup">
+              <div class="setting-info">
+                <span class="setting-name">Rotate on Browser Startup</span>
+                <span class="setting-desc">Generate new fingerprint every time browser starts</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>ℹ️ About Rotation</strong>
+            <p>Automatic rotation changes your fingerprint periodically, making long-term tracking more difficult. Your tabs will reload when rotation occurs.</p>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
             <h3>Screen & Display</h3>
           </div>
 

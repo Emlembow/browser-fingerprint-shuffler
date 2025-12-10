@@ -59,7 +59,12 @@
     // Cryptographic strengthening
     useStrongKDF: true, // Use PBKDF2-style key derivation (recommended)
     kdfIterations: 1000, // Number of hash iterations for seed derivation
-    useGaussianNoise: true // Use Gaussian/Normal distribution instead of uniform (more natural)
+    useGaussianNoise: true, // Use Gaussian/Normal distribution instead of uniform (more natural)
+
+    // Automatic fingerprint rotation
+    autoRotateFingerprint: false, // Automatically rotate fingerprint on schedule
+    rotationIntervalHours: 24, // How often to rotate (in hours)
+    rotateOnStartup: false // Rotate fingerprint every time browser starts
   };
 
   // Expose globally for other modules.

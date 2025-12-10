@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load and display active protections
   loadActiveProtections();
 
+  // Load rotation status
+  loadRotationStatus();
+
   // Event listeners
   siteToggle.addEventListener('change', handleSiteToggle);
   optionsBtn.addEventListener('click', openOptions);
@@ -287,5 +290,64 @@ document.addEventListener('DOMContentLoaded', async () => {
       enableTimezoneProtection: true,
       enableSensorProtection: true
     };
+  }
+
+  async function loadRotationStatus() {
+    try {
+      const response = await chrome.runtime.sendMessage({ type: 'GET_ROTATION_STATUS' });
+
+      if (!response || !response.success) {
+        return; // Hide section if error
+      }
+
+      const status = response.status;
+      const rotationSection = document.getElementById('rotationSection');
+
+      if (!status.enabled) {
+        rotationSection.style.display = 'none';
+        return;
+      }
+
+      // Show section
+      rotationSection.style.display = 'block';
+
+      // Update status text
+      const statusText = document.getElementById('rotationStatus');
+      if (status.rotateOnStartup) {
+        statusText.textContent = `Active (${status.intervalHours}h + startup)`;
+      } else {
+        statusText.textContent = `Active (every ${status.intervalHours}h)`;
+      }
+
+      // Update next rotation time
+      const nextRotationEl = document.getElementById('nextRotation');
+      if (status.nextRotation) {
+        const nextDate = new Date(status.nextRotation);
+        const now = new Date();
+        const diffMs = nextDate - now;
+        const diffHours = Math.floor(diffMs / 1000 / 60 / 60);
+        const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / 1000 / 60);
+
+        if (diffMs < 0) {
+          nextRotationEl.textContent = 'Soon';
+        } else if (diffHours < 1) {
+          nextRotationEl.textContent = `${diffMins}m`;
+        } else if (diffHours < 24) {
+          nextRotationEl.textContent = `${diffHours}h ${diffMins}m`;
+        } else {
+          const days = Math.floor(diffHours / 24);
+          const hours = diffHours % 24;
+          nextRotationEl.textContent = `${days}d ${hours}h`;
+        }
+      } else {
+        nextRotationEl.textContent = 'Unknown';
+      }
+
+      // Update rotation count
+      document.getElementById('rotationCount').textContent = status.rotationCount || 0;
+    } catch (error) {
+      console.error('Failed to load rotation status:', error);
+      document.getElementById('rotationSection').style.display = 'none';
+    }
   }
 });
