@@ -3,13 +3,43 @@
   const readyPromise = (async () => {
     try {
       const getSalt = globalThis.fpGetSalt;
+      const loadConfig = globalThis.fpLoadConfig;
       const deriveSeed = globalThis.fpDeriveSeed;
       const hashString = globalThis.fpHashString;
       const createPRNG = globalThis.fpCreatePRNG;
-      const config = globalThis.fpConfig || {};
 
-      if (!getSalt || !deriveSeed || !hashString || !createPRNG) {
+      if (!getSalt || !deriveSeed || !hashString || !createPRNG || !loadConfig) {
         throw new Error("Fingerprint bootstrap missing prerequisites");
+      }
+
+      // Load stored config first (merges with defaults)
+      const config = await loadConfig();
+
+      // Check if current site is whitelisted (protection disabled)
+      if (chrome?.storage?.local) {
+        try {
+          const siteResult = await new Promise((resolve) => {
+            chrome.storage.local.get(['fp_site_settings'], (result) => {
+              resolve(result);
+            });
+          });
+
+          const siteSettings = siteResult.fp_site_settings || {};
+          const currentOrigin = location.origin;
+          const siteSetting = siteSettings[currentOrigin];
+
+          if (siteSetting && siteSetting.enabled === false) {
+            if (config.debug) {
+              console.log('[fp][bootstrap] Protection disabled for this site (whitelisted)');
+            }
+            return null; // Skip hook installation
+          }
+        } catch (e) {
+          // Continue with protection if whitelist check fails
+          if (config.debug) {
+            console.error('[fp][bootstrap] Failed to check whitelist:', e);
+          }
+        }
       }
 
       const salt = await getSalt();

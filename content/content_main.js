@@ -6,8 +6,15 @@
   if (!ready || !installers.length || !testFingerprint) return;
 
   ready.then(async env => {
-    if (!env) return;
+    if (!env) {
+      console.log('[fp] Bootstrap returned null - protection disabled or failed');
+      return;
+    }
     const log = env.config?.debug ? console.log : () => { };
+
+    log('[fp] Starting hook installation...');
+    log('[fp] Config:', env.config);
+    log('[fp] Installers count:', installers.length);
 
     const before = await testFingerprint();
 

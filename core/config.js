@@ -67,6 +67,53 @@
     rotateOnStartup: false // Rotate fingerprint every time browser starts
   };
 
-  // Expose globally for other modules.
+  // Expose default config globally
   globalThis.fpConfig = config;
+
+  // Load stored config from chrome.storage and merge with defaults
+  globalThis.fpLoadConfig = async function() {
+    const defaultConfig = { ...config };
+
+    try {
+      if (!chrome?.storage?.local) {
+        return defaultConfig;
+      }
+
+      const result = await new Promise((resolve, reject) => {
+        chrome.storage.local.get(['fpConfig'], (result) => {
+          if (chrome.runtime?.lastError) {
+            reject(chrome.runtime.lastError);
+          } else {
+            resolve(result);
+          }
+        });
+      });
+
+      const storedConfig = result.fpConfig || {};
+
+      // Deep merge: stored config overrides defaults
+      const mergedConfig = { ...defaultConfig };
+      for (const key in storedConfig) {
+        if (typeof storedConfig[key] === 'object' && !Array.isArray(storedConfig[key]) && storedConfig[key] !== null) {
+          mergedConfig[key] = { ...defaultConfig[key], ...storedConfig[key] };
+        } else {
+          mergedConfig[key] = storedConfig[key];
+        }
+      }
+
+      // Update global config
+      globalThis.fpConfig = mergedConfig;
+
+      if (mergedConfig.debug) {
+        console.log('[fp][config] Loaded config:', mergedConfig);
+      }
+
+      return mergedConfig;
+    } catch (e) {
+      if (config.debug) {
+        console.error('[fp][config] Failed to load stored config:', e);
+      }
+      return defaultConfig;
+    }
+  };
 })();
