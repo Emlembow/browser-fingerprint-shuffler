@@ -180,10 +180,11 @@ Issues and pull requests welcome! This project aims to balance privacy protectio
 
 ## Credits
 
-Original concept and architecture by [@Emlembow](https://github.com/Emlembow)
+Original concept and architecture by [@juu17](https://github.com/juu17)
 
-Enhanced with:
+Fork maintained by [@Emlembow](https://github.com/Emlembow) with enhancements:
 - Page-world hook injection for actual fingerprint protection
 - Smart timezone spoofing (same offset, different zone)
-- Automatic fingerprint rotation
+- Automatic fingerprint rotation with scheduling
 - Statistics tracking and UI improvements
+- Site whitelist and per-site controls
