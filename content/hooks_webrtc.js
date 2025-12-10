@@ -27,6 +27,11 @@
 
       // Proxy RTCPeerConnection constructor
       window.RTCPeerConnection = function (configuration, constraints) {
+        // Track statistics
+        if (globalThis.fpStatsTracker) {
+          globalThis.fpStatsTracker.increment('webrtcCalls');
+        }
+
         log('[fp][webrtc] RTCPeerConnection created');
 
         // Modify configuration to force relay if enabled

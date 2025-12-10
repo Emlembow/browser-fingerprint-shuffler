@@ -9,6 +9,9 @@
         "storage",
         "tabs"
     ],
+    "background": {
+        "service_worker": "background/service-worker.js"
+    },
     "action": {
         "default_popup": "popup/popup.html",
         "default_icon": {
@@ -35,6 +38,7 @@
                 "core/stealth.js",
                 "core/salts.js",
                 "content/bootstrap.js",
+                "content/stats_tracker.js",
                 "content/test_fingerprint.js",
                 "content/hooks_canvas.js",
                 "content/hooks_webgl.js",

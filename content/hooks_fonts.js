@@ -27,6 +27,11 @@
         globalThis.fpStealth.markPatched(origMeasureText);
 
         CanvasProto.measureText = function (text) {
+          // Track statistics
+          if (globalThis.fpStatsTracker) {
+            globalThis.fpStatsTracker.increment('fontReads');
+          }
+
           if (globalThis.fpTimingUtils) {
             globalThis.fpTimingUtils.randomDelaySync();
             globalThis.fpTimingUtils.executionJitter();

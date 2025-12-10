@@ -59,6 +59,11 @@
         globalThis.fpStealth.markPatched(origGetTimezoneOffset);
 
         Date.prototype.getTimezoneOffset = function () {
+          // Track statistics
+          if (globalThis.fpStatsTracker) {
+            globalThis.fpStatsTracker.increment('timezoneReads');
+          }
+
           if (globalThis.fpTimingUtils) {
             globalThis.fpTimingUtils.randomDelaySync();
           }

@@ -22,6 +22,11 @@
       const origGetImageData = CanvasRenderingContext2D.prototype.getImageData;
 
       function noisedImageData (ctx, x, y, w, h) {
+        // Track statistics
+        if (globalThis.fpStatsTracker) {
+          globalThis.fpStatsTracker.increment('canvasReads');
+        }
+
         // Add timing resistance
         if (globalThis.fpTimingUtils) {
           globalThis.fpTimingUtils.randomDelaySync();

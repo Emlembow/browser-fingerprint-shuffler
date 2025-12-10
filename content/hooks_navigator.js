@@ -17,6 +17,11 @@
       try {
         // Wrap getter with timing resistance
         const resistantGetter = function() {
+          // Track statistics
+          if (globalThis.fpStatsTracker) {
+            globalThis.fpStatsTracker.increment('navigatorReads');
+          }
+
           if (globalThis.fpTimingUtils) {
             globalThis.fpTimingUtils.randomDelaySync();
             globalThis.fpTimingUtils.executionJitter();

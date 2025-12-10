@@ -85,6 +85,11 @@
 
           Object.defineProperty(obj, prop, {
             get: function() {
+              // Track statistics
+              if (globalThis.fpStatsTracker) {
+                globalThis.fpStatsTracker.increment('screenReads');
+              }
+
               if (globalThis.fpTimingUtils) {
                 globalThis.fpTimingUtils.randomDelaySync();
                 globalThis.fpTimingUtils.executionJitter();

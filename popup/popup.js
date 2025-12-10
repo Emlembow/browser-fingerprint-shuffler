@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load stats
   loadStats();
 
+  // Load and display active protections
+  loadActiveProtections();
+
   // Event listeners
   siteToggle.addEventListener('change', handleSiteToggle);
   optionsBtn.addEventListener('click', openOptions);
@@ -176,5 +179,113 @@ document.addEventListener('DOMContentLoaded', async () => {
       return (num / 1000).toFixed(1) + 'K';
     }
     return num.toString();
+  }
+
+  async function loadActiveProtections() {
+    try {
+      const result = await chrome.storage.local.get(['fpConfig']);
+      const config = result.fpConfig || getDefaultConfig();
+
+      // Map of protection keys to their display info
+      const protectionMap = {
+        canvas: {
+          enabled: config.enableCanvasNoise !== false,
+          icon: '🎨',
+          name: 'Canvas'
+        },
+        webgl: {
+          enabled: config.enableWebGLMasking !== false,
+          icon: '🔺',
+          name: 'WebGL'
+        },
+        audio: {
+          enabled: config.enableAudioNoise !== false,
+          icon: '🔊',
+          name: 'Audio'
+        },
+        webrtc: {
+          enabled: config.enableWebRTCProtection !== false,
+          icon: '📡',
+          name: 'WebRTC'
+        },
+        screen: {
+          enabled: config.enableScreenProtection !== false,
+          icon: '📱',
+          name: 'Screen'
+        },
+        fonts: {
+          enabled: config.enableFontProtection !== false,
+          icon: '🔤',
+          name: 'Fonts'
+        },
+        timezone: {
+          enabled: config.enableTimezoneProtection !== false,
+          icon: '🌍',
+          name: 'Timezone'
+        },
+        sensors: {
+          enabled: config.enableSensorProtection !== false,
+          icon: '📊',
+          name: 'Sensors'
+        }
+      };
+
+      // Get all protection items in the DOM
+      const protectionGrid = document.querySelector('.protection-grid');
+      if (!protectionGrid) return;
+
+      // Clear existing items safely
+      while (protectionGrid.firstChild) {
+        protectionGrid.removeChild(protectionGrid.firstChild);
+      }
+
+      // Add only enabled protections
+      Object.entries(protectionMap).forEach(([key, info]) => {
+        if (info.enabled) {
+          const item = document.createElement('div');
+          item.className = 'protection-item';
+
+          const icon = document.createElement('span');
+          icon.className = 'protection-icon';
+          icon.textContent = info.icon;
+
+          const name = document.createElement('span');
+          name.className = 'protection-name';
+          name.textContent = info.name;
+
+          item.appendChild(icon);
+          item.appendChild(name);
+          protectionGrid.appendChild(item);
+        }
+      });
+
+      // If no protections are enabled, show a message
+      if (protectionGrid.children.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.style.gridColumn = '1 / -1';
+        emptyMsg.style.textAlign = 'center';
+        emptyMsg.style.padding = '1rem';
+        emptyMsg.style.color = '#666';
+        emptyMsg.textContent = 'No protections enabled';
+        protectionGrid.appendChild(emptyMsg);
+      }
+    } catch (error) {
+      console.error('Failed to load active protections:', error);
+    }
+  }
+
+  function getDefaultConfig() {
+    return {
+      enableCanvasNoise: true,
+      enableWebGLMasking: true,
+      enableAudioNoise: true,
+      enableNavigatorFuzz: true,
+      enableWebRTCProtection: true,
+      enableMediaDeviceProtection: true,
+      enableScreenProtection: true,
+      enableFontProtection: true,
+      enableTimezoneProtection: true,
+      enableSensorProtection: true
+    };
   }
 });

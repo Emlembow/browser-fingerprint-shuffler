@@ -19,6 +19,11 @@
 
       const origGetChannelData = AudioBufferProto.getChannelData;
       AudioBufferProto.getChannelData = function () {
+        // Track statistics
+        if (globalThis.fpStatsTracker) {
+          globalThis.fpStatsTracker.increment('audioCalls');
+        }
+
         // Add timing resistance
         if (globalThis.fpTimingUtils) {
           globalThis.fpTimingUtils.randomDelaySync();

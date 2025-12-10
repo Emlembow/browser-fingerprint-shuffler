@@ -19,6 +19,11 @@
       if (globalThis.fpStealth) globalThis.fpStealth.markPatched(origGetParameter);
 
       proto.getParameter = function (p) {
+        // Track statistics
+        if (globalThis.fpStatsTracker) {
+          globalThis.fpStatsTracker.increment('webglCalls');
+        }
+
         // Add timing resistance
         if (globalThis.fpTimingUtils) {
           globalThis.fpTimingUtils.randomDelaySync();

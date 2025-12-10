@@ -26,6 +26,11 @@
         globalThis.fpStealth.markPatched(origGetBattery);
 
         navigator.getBattery = async function () {
+          // Track statistics
+          if (globalThis.fpStatsTracker) {
+            globalThis.fpStatsTracker.increment('sensorReads');
+          }
+
           if (globalThis.fpTimingUtils) {
             globalThis.fpTimingUtils.randomDelaySync();
           }
