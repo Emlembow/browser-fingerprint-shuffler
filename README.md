@@ -57,8 +57,10 @@ The extension uses a dual-world architecture:
 
 Each protection uses deterministic PRNG seeded from a persistent salt, ensuring:
 - Same fingerprint per site across sessions
-- Different fingerprint per site (optional)
+- Different fingerprint per site (enabled by default via `perOriginFingerprint` setting)
 - Fingerprint changes only when you rotate the salt
+
+**Per-Origin Fingerprints:** When enabled (default), each website gets a unique fingerprint derived from your salt + the website's origin. Disable in Settings → General to use the same fingerprint across all sites.
 
 ### Protected APIs
 

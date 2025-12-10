@@ -2,11 +2,11 @@
   "name": "browser-fingerprint-shuffler",
   "version": "1.2.0",
   "description": "Browser extension that adds persistent, low-level noise to browser fingerprints for enhanced privacy",
-  "author": "juu17",
+  "author": "Emlembow",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/juu17/browser-fingerprint-shuffler"
+    "url": "https://github.com/Emlembow/browser-fingerprint-shuffler"
   },
   "scripts": {
     "build": "webpack --mode production",

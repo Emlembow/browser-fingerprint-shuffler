@@ -243,7 +243,7 @@ This release represents a complete transformation of the extension from a basic 
 ## Notes
 
 - This extension is under active development
-- Report issues at: https://github.com/juu17/browser-fingerprint-shuffler/issues
+- Report issues at: https://github.com/Emlembow/browser-fingerprint-shuffler/issues
 - Contributions welcome!
 - MIT License - Free and Open Source
 

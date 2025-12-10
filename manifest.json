@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Browser Fingerprint Shuffler",
-    "author": "juu17",
+    "author": "Emlembow",
     "repository": "https://github.com/Emlembow/browser-fingerprint-shuffler",
     "version": "2.2.0",
     "description": "It helps users evade precise anti-sybil detection from websites by adding persistent, low-level noise to browser fingerprints.",
