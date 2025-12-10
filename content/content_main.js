@@ -29,5 +29,10 @@
     const after = await testFingerprint();
     console.log(`Fingerprint Shuffled. Before: ${before} After: ${after}`);
     log("[fp] before", before, "after", after);
+
+    // Clean up globals to hide extension fingerprinting
+    if (globalThis.fpStealth && globalThis.fpStealth.cleanupGlobals) {
+      globalThis.fpStealth.cleanupGlobals();
+    }
   });
 })();

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fingerprint Shuffler</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-content">
+        <img src="../images/icon48.jpg" alt="Icon" class="icon">
+        <h1>Fingerprint Shuffler</h1>
+      </div>
+      <div class="version">v1.2.0</div>
+    </header>
+
+    <!-- Status Section -->
+    <section class="status-section">
+      <div class="status-card">
+        <div class="status-indicator" id="statusIndicator">
+          <div class="status-dot"></div>
+          <span id="statusText">Protected</span>
+        </div>
+        <div class="status-details" id="statusDetails">
+          All fingerprint protections active
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Site Control -->
+    <section class="site-section">
+      <div class="site-header">
+        <span id="currentSite" class="site-url">Loading...</span>
+      </div>
+      <div class="toggle-container">
+        <label class="toggle-switch">
+          <input type="checkbox" id="siteToggle" checked>
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Protection enabled on this site</span>
+      </div>
+    </section>
+
+    <!-- Protection Overview -->
+    <section class="protections-section">
+      <h2>Active Protections</h2>
+      <div class="protection-grid">
+        <div class="protection-item">
+          <span class="protection-icon">🎨</span>
+          <span class="protection-name">Canvas</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">🔺</span>
+          <span class="protection-name">WebGL</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">🔊</span>
+          <span class="protection-name">Audio</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">📡</span>
+          <span class="protection-name">WebRTC</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">📱</span>
+          <span class="protection-name">Screen</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">🔤</span>
+          <span class="protection-name">Fonts</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">🌍</span>
+          <span class="protection-name">Timezone</span>
+        </div>
+        <div class="protection-item">
+          <span class="protection-icon">📊</span>
+          <span class="protection-name">Sensors</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <h2>Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="sitesProtected">-</div>
+          <div class="stat-label">Sites Protected</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalCalls">-</div>
+          <div class="stat-label">Calls Intercepted</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <section class="actions-section">
+      <button class="btn btn-primary" id="optionsBtn">
+        <span>⚙️</span> Settings
+      </button>
+      <button class="btn btn-secondary" id="resetBtn">
+        <span>🔄</span> Reset Fingerprint
+      </button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <a href="https://github.com/juu17/browser-fingerprint-shuffler" target="_blank" class="footer-link">
+        View on GitHub
+      </a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

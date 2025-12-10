@@ -15,6 +15,14 @@ build/
 coverage/
 .parcel-cache/
 .turbo/
+*.map
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Env/config secrets
 .env

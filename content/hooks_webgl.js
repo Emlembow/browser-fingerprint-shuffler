@@ -14,10 +14,17 @@
     function patchSelf (proto) {
       if (!proto || !proto.getParameter) return;
       const origGetParameter = proto.getParameter;
-      if (origGetParameter.__fp_patched) return;
-      origGetParameter.__fp_patched = true;
+      // Use stealth tracking instead of __fp_patched
+      if (globalThis.fpStealth && globalThis.fpStealth.isPatched(origGetParameter)) return;
+      if (globalThis.fpStealth) globalThis.fpStealth.markPatched(origGetParameter);
 
       proto.getParameter = function (p) {
+        // Add timing resistance
+        if (globalThis.fpTimingUtils) {
+          globalThis.fpTimingUtils.randomDelaySync();
+          globalThis.fpTimingUtils.executionJitter();
+        }
+
         const value = origGetParameter.call(this, p);
 
         if (typeof value === "number") {
@@ -47,8 +54,8 @@
 
       if (proto.getSupportedExtensions && shuffleExt) {
         const origGetSupportedExtensions = proto.getSupportedExtensions;
-        if (!origGetSupportedExtensions.__fp_patched) {
-          origGetSupportedExtensions.__fp_patched = true;
+        if (!globalThis.fpStealth || !globalThis.fpStealth.isPatched(origGetSupportedExtensions)) {
+          if (globalThis.fpStealth) globalThis.fpStealth.markPatched(origGetSupportedExtensions);
           proto.getSupportedExtensions = function () {
             const list = origGetSupportedExtensions.call(this);
             if (Array.isArray(list)) {

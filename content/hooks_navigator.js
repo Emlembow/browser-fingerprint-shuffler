@@ -15,8 +15,17 @@
 
     function defineGetter (obj, prop, getter) {
       try {
+        // Wrap getter with timing resistance
+        const resistantGetter = function() {
+          if (globalThis.fpTimingUtils) {
+            globalThis.fpTimingUtils.randomDelaySync();
+            globalThis.fpTimingUtils.executionJitter();
+          }
+          return getter.call(this);
+        };
+
         Object.defineProperty(obj, prop, {
-          get: getter,
+          get: resistantGetter,
           configurable: false,
           enumerable: true
         });

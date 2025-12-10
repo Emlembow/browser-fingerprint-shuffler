@@ -22,6 +22,12 @@
       const origGetImageData = CanvasRenderingContext2D.prototype.getImageData;
 
       function noisedImageData (ctx, x, y, w, h) {
+        // Add timing resistance
+        if (globalThis.fpTimingUtils) {
+          globalThis.fpTimingUtils.randomDelaySync();
+          globalThis.fpTimingUtils.executionJitter();
+        }
+
         const imgData = origGetImageData.call(ctx, x, y, w, h);
         const data = imgData.data;
         for (let i = 0; i < data.length; i += 4) {
@@ -29,6 +35,12 @@
           data[i + 1] += noise(noiseStrength);
           data[i + 2] += noise(noiseStrength);
         }
+
+        // Add exit jitter
+        if (globalThis.fpTimingUtils) {
+          globalThis.fpTimingUtils.executionJitter();
+        }
+
         return imgData;
       }
 

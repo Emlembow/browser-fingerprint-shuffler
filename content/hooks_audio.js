@@ -19,11 +19,23 @@
 
       const origGetChannelData = AudioBufferProto.getChannelData;
       AudioBufferProto.getChannelData = function () {
+        // Add timing resistance
+        if (globalThis.fpTimingUtils) {
+          globalThis.fpTimingUtils.randomDelaySync();
+          globalThis.fpTimingUtils.executionJitter();
+        }
+
         const data = origGetChannelData.apply(this, arguments);
         const copy = new Float32Array(data.length);
         for (let i = 0; i < data.length; i++) {
           copy[i] = data[i] + noise(strength);
         }
+
+        // Add exit jitter
+        if (globalThis.fpTimingUtils) {
+          globalThis.fpTimingUtils.executionJitter();
+        }
+
         return copy;
       };
     });

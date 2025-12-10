@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fingerprint Shuffler Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <img src="../images/icon48.jpg" alt="Icon" class="icon">
+        <div class="header-text">
+          <h1>Browser Fingerprint Shuffler</h1>
+          <p class="subtitle">Advanced Privacy Protection Settings</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-reset" id="resetAllBtn">Reset All Settings</button>
+        <button class="btn-save" id="saveBtn">Save Changes</button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="general">General</button>
+      <button class="tab-btn" data-tab="canvas">Canvas & WebGL</button>
+      <button class="tab-btn" data-tab="webrtc">WebRTC & Media</button>
+      <button class="tab-btn" data-tab="advanced">Advanced</button>
+      <button class="tab-btn" data-tab="sites">Site Management</button>
+      <button class="tab-btn" data-tab="about">About</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <main class="content">
+      <!-- General Tab -->
+      <section class="tab-content active" id="general-tab">
+        <h2>General Settings</h2>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Core Protection</h3>
+            <p class="description">Essential fingerprint protection settings</p>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="perOriginFingerprint">
+              <div class="setting-info">
+                <span class="setting-name">Per-Origin Fingerprints</span>
+                <span class="setting-desc">Generate unique fingerprint for each website (recommended)</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="useGaussianNoise">
+              <div class="setting-info">
+                <span class="setting-name">Gaussian Noise Distribution</span>
+                <span class="setting-desc">Use natural noise patterns (more realistic)</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="useStrongKDF">
+              <div class="setting-info">
+                <span class="setting-name">Strong Key Derivation</span>
+                <span class="setting-desc">Use PBKDF2-style seed generation (recommended)</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label-inline">
+              <span class="setting-name">KDF Iterations:</span>
+              <input type="number" id="kdfIterations" min="100" max="10000" step="100">
+              <span class="setting-desc">Higher = more secure, slower (default: 1000)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Screen & Display</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableScreenProtection">
+              <div class="setting-info">
+                <span class="setting-name">Screen Protection</span>
+                <span class="setting-desc">Spoof screen resolution and pixel ratio</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="useRealDistribution">
+              <div class="setting-info">
+                <span class="setting-name">Use Real-World Resolutions</span>
+                <span class="setting-desc">Sample from common screen sizes (1920x1080, etc.)</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Font Protection</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableFontProtection">
+              <div class="setting-info">
+                <span class="setting-name">Font Fingerprinting Protection</span>
+                <span class="setting-desc">Protect against font enumeration and measurement</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Timezone & Locale</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableTimezoneProtection">
+              <div class="setting-info">
+                <span class="setting-name">Timezone Protection</span>
+                <span class="setting-desc">Spoof timezone to common zones</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Sensors & Performance</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableSensorProtection">
+              <div class="setting-info">
+                <span class="setting-name">Sensor Protection</span>
+                <span class="setting-desc">Protect battery, performance, and other sensors</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="hideGamepads">
+              <div class="setting-info">
+                <span class="setting-name">Hide Gamepad Information</span>
+                <span class="setting-desc">Prevent gamepad enumeration</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Canvas & WebGL Tab -->
+      <section class="tab-content" id="canvas-tab">
+        <h2>Canvas & WebGL Protection</h2>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Canvas Fingerprinting</h3>
+            <p class="description">Protect against canvas-based fingerprinting techniques</p>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableCanvasNoise">
+              <div class="setting-info">
+                <span class="setting-name">Enable Canvas Noise</span>
+                <span class="setting-desc">Add noise to canvas rendering</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label-inline">
+              <span class="setting-name">Noise Strength:</span>
+              <input type="range" id="canvasNoiseStrength" min="0" max="10" step="0.1">
+              <span class="setting-value" id="canvasNoiseValue">2.0</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>WebGL Fingerprinting</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableWebGLMasking">
+              <div class="setting-info">
+                <span class="setting-name">Enable WebGL Protection</span>
+                <span class="setting-desc">Modify WebGL parameters and vendor strings</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label-inline">
+              <span class="setting-name">WebGL Jitter:</span>
+              <input type="range" id="webglJitter" min="0" max="10" step="0.1">
+              <span class="setting-value" id="webglJitterValue">2.0</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="maskWebGLVendorStrings">
+              <div class="setting-info">
+                <span class="setting-name">Mask Vendor Strings</span>
+                <span class="setting-desc">Randomize GPU vendor and renderer strings</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="shuffleWebGLExtensions">
+              <div class="setting-info">
+                <span class="setting-name">Shuffle Extensions List</span>
+                <span class="setting-desc">Randomize order of WebGL extensions</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Audio Fingerprinting</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableAudioNoise">
+              <div class="setting-info">
+                <span class="setting-name">Enable Audio Noise</span>
+                <span class="setting-desc">Add noise to audio context data</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label-inline">
+              <span class="setting-name">Audio Noise Strength:</span>
+              <input type="number" id="audioNoiseStrength" min="0" max="0.001" step="0.0000001" style="width: 120px;">
+              <span class="setting-desc">(Scientific notation: 1e-7)</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- WebRTC & Media Tab -->
+      <section class="tab-content" id="webrtc-tab">
+        <h2>WebRTC & Media Device Protection</h2>
+
+        <div class="alert alert-warning">
+          <strong>⚠️ Critical Privacy Settings</strong>
+          <p>WebRTC can leak your real IP address even when using a VPN. These settings prevent that.</p>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>WebRTC Protection</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableWebRTCProtection">
+              <div class="setting-info">
+                <span class="setting-name">Enable WebRTC Protection</span>
+                <span class="setting-desc">Protect against WebRTC fingerprinting and IP leaks</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="blockIPLeak">
+              <div class="setting-info">
+                <span class="setting-name">Block IP Leak (Recommended)</span>
+                <span class="setting-desc">Remove local IP candidates from WebRTC connections</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="randomizeSDP">
+              <div class="setting-info">
+                <span class="setting-name">Randomize SDP Fingerprints</span>
+                <span class="setting-desc">Modify WebRTC session descriptions</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="forceRelay">
+              <div class="setting-info">
+                <span class="setting-name">Force Relay-Only Connections</span>
+                <span class="setting-desc">Maximum privacy but may break some WebRTC apps</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Media Device Protection</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableMediaDeviceProtection">
+              <div class="setting-info">
+                <span class="setting-name">Enable Media Device Protection</span>
+                <span class="setting-desc">Protect against device enumeration fingerprinting</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="randomizeDeviceIds">
+              <div class="setting-info">
+                <span class="setting-name">Randomize Device IDs</span>
+                <span class="setting-desc">Generate fake device identifiers</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="spoofDeviceLabels">
+              <div class="setting-info">
+                <span class="setting-name">Spoof Device Labels</span>
+                <span class="setting-desc">Use generic device names</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Tab -->
+      <section class="tab-content" id="advanced-tab">
+        <h2>Advanced Settings</h2>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Navigator Properties</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="enableNavigatorFuzz">
+              <div class="setting-info">
+                <span class="setting-name">Enable Navigator Fuzzing</span>
+                <span class="setting-desc">Modify hardware and language properties</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="fuzzHardwareConcurrency">
+              <div class="setting-info">
+                <span class="setting-name">Fuzz CPU Core Count</span>
+                <span class="setting-desc">Randomize navigator.hardwareConcurrency</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="fuzzDeviceMemory">
+              <div class="setting-info">
+                <span class="setting-name">Fuzz Device Memory</span>
+                <span class="setting-desc">Randomize navigator.deviceMemory</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="shuffleLanguages">
+              <div class="setting-info">
+                <span class="setting-name">Shuffle Language List</span>
+                <span class="setting-desc">Randomize navigator.languages order</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Debugging</h3>
+          </div>
+
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" id="debug">
+              <div class="setting-info">
+                <span class="setting-name">Enable Debug Logging</span>
+                <span class="setting-desc">Show detailed logs in browser console</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Fingerprint Management</h3>
+          </div>
+
+          <button class="btn-danger" id="resetFingerprintBtn">
+            🔄 Reset Fingerprint
+          </button>
+          <p class="description">Generate a new fingerprint. All tabs will reload.</p>
+        </div>
+      </section>
+
+      <!-- Site Management Tab -->
+      <section class="tab-content" id="sites-tab">
+        <h2>Site Management</h2>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <h3>Whitelisted Sites</h3>
+            <p class="description">Protection is disabled on these sites</p>
+          </div>
+
+          <div id="whitelistContainer">
+            <!-- Populated by JavaScript -->
+          </div>
+
+          <div class="add-site-form">
+            <input type="text" id="newSiteInput" placeholder="example.com">
+            <button class="btn-add" id="addSiteBtn">Add Site</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Tab -->
+      <section class="tab-content" id="about-tab">
+        <h2>About</h2>
+
+        <div class="about-content">
+          <div class="about-section">
+            <h3>Browser Fingerprint Shuffler</h3>
+            <p class="version-info">Version 1.3.0</p>
+            <p>Advanced privacy protection extension that prevents browser fingerprinting by adding deterministic noise to various browser APIs.</p>
+          </div>
+
+          <div class="about-section">
+            <h3>What This Extension Does</h3>
+            <ul class="feature-list">
+              <li>✅ Prevents Canvas fingerprinting</li>
+              <li>✅ Protects WebGL fingerprinting</li>
+              <li>✅ Blocks WebRTC IP leaks</li>
+              <li>✅ Spoofs screen & display properties</li>
+              <li>✅ Protects font enumeration</li>
+              <li>✅ Masks timezone & locale</li>
+              <li>✅ Hides sensor data (battery, performance)</li>
+              <li>✅ Randomizes media device IDs</li>
+              <li>✅ And 50+ other protections...</li>
+            </ul>
+          </div>
+
+          <div class="about-section">
+            <h3>Links</h3>
+            <p><a href="https://github.com/juu17/browser-fingerprint-shuffler" target="_blank">GitHub Repository</a></p>
+            <p><a href="https://github.com/juu17/browser-fingerprint-shuffler/issues" target="_blank">Report Issues</a></p>
+          </div>
+
+          <div class="about-section">
+            <h3>License</h3>
+            <p>MIT License - Free and Open Source</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="statusBar">
+      <span id="statusMessage">Settings loaded</span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

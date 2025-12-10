@@ -1,0 +1,41 @@
+{
+  "name": "browser-fingerprint-shuffler",
+  "version": "1.2.0",
+  "description": "Browser extension that adds persistent, low-level noise to browser fingerprints for enhanced privacy",
+  "author": "juu17",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juu17/browser-fingerprint-shuffler"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "build:watch": "webpack --mode development --watch",
+    "build:firefox": "webpack --mode production --env browser=firefox",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.js",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

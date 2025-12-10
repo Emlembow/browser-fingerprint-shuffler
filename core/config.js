@@ -21,7 +21,45 @@
       shuffleLanguages: true
     },
 
-    perOriginFingerprint: true
+    perOriginFingerprint: true,
+
+    // WebRTC protection (CRITICAL for privacy - prevents IP leaks)
+    enableWebRTCProtection: true,
+    webrtc: {
+      blockIPLeak: true,      // Remove host/srflx candidates (prevents real IP leak)
+      randomizeSDP: true,     // Randomize SDP fingerprints
+      forceRelay: false       // Force relay-only (may break some connections)
+    },
+
+    // Media devices protection
+    enableMediaDeviceProtection: true,
+    mediaDevices: {
+      randomizeDeviceIds: true,
+      spoofDeviceLabels: true
+    },
+
+    // Screen/Display protection
+    enableScreenProtection: true,
+    screen: {
+      useRealDistribution: true // Sample from real-world resolution distribution
+    },
+
+    // Font fingerprinting protection
+    enableFontProtection: true,
+
+    // Timezone and locale protection
+    enableTimezoneProtection: true,
+
+    // Sensor and performance API protection
+    enableSensorProtection: true,
+    sensors: {
+      hideGamepads: true // Hide gamepad information
+    },
+
+    // Cryptographic strengthening
+    useStrongKDF: true, // Use PBKDF2-style key derivation (recommended)
+    kdfIterations: 1000, // Number of hash iterations for seed derivation
+    useGaussianNoise: true // Use Gaussian/Normal distribution instead of uniform (more natural)
   };
 
   // Expose globally for other modules.
