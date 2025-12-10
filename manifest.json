@@ -17,15 +17,17 @@
     "action": {
         "default_popup": "popup/popup.html",
         "default_icon": {
-            "48": "images/icon48.jpg",
-            "128": "images/icon128.jpg"
+            "16": "icon.png",
+            "48": "icon.png",
+            "128": "icon.png"
         },
         "default_title": "Browser Fingerprint Shuffler"
     },
     "options_page": "options/options.html",
     "icons": {
-        "48": "images/icon48.jpg",
-        "128": "images/icon128.jpg"
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
     },
     "content_scripts": [
         {
