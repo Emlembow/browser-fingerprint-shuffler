@@ -3,7 +3,7 @@
     "name": "Browser Fingerprint Shuffler",
     "author": "juu17",
     "repository": "https://github.com/Emlembow/browser-fingerprint-shuffler",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "It helps users evade precise anti-sybil detection from websites by adding persistent, low-level noise to browser fingerprints.",
     "permissions": [
         "storage",
@@ -40,20 +40,20 @@
                 "core/stealth.js",
                 "core/salts.js",
                 "content/bootstrap.js",
-                "content/stats_tracker.js",
-                "content/test_fingerprint.js",
-                "content/hooks_canvas.js",
-                "content/hooks_webgl.js",
-                "content/hooks_audio.js",
-                "content/hooks_navigator.js",
-                "content/hooks_webrtc.js",
-                "content/hooks_screen.js",
-                "content/hooks_fonts.js",
-                "content/hooks_timezone.js",
-                "content/hooks_sensors.js",
-                "content/content_main.js"
+                "content/stats_tracker.js"
             ],
-            "run_at": "document_start"
+            "run_at": "document_start",
+            "world": "ISOLATED"
+        },
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content/page_world_injector.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ],
     "web_accessible_resources": [

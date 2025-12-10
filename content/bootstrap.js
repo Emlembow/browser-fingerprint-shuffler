@@ -85,6 +85,18 @@
       globalThis.fpNoise = noise;
       globalThis.fpEnv = env;
 
+      // Send config to page-world injector (MAIN world)
+      // The page-world injector needs config and seed to initialize hooks
+      window.postMessage({
+        type: 'FP_INIT_PAGE_HOOKS',
+        config: config,
+        seed: seed
+      }, '*');
+
+      if (config.debug) {
+        console.log('[fp][bootstrap] Sent config to page-world injector');
+      }
+
       return env;
     } catch (e) {
       // Fail closed: do not break the page if bootstrap fails.
