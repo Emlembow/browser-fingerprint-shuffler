@@ -20,7 +20,8 @@ async function initializeStorage() {
   if (!result.fp_stats) {
     await chrome.storage.local.set({
       fp_stats: {
-        sitesProtected: new Set(),
+        sitesProtectedArray: [],
+        sitesProtected: 0,
         totalCanvasReads: 0,
         totalWebGLCalls: 0,
         totalAudioCalls: 0,
