@@ -239,15 +239,80 @@
     // ========================================================================
     if (config.enableTimezoneProtection) {
       try {
-        const timezones = [-480, -420, -360, -300, -240, -180, -120, -60, 0, 60, 120, 180, 240, 300, 330, 345, 360, 420, 480, 540, 600, 660, 720];
-        const spoofedOffset = timezones[Math.floor(prng() * timezones.length)];
+        // Get real timezone offset (don't change this - keeps times correct)
+        const realOffset = new Date().getTimezoneOffset();
 
-        const origGetTimezoneOffset = Date.prototype.getTimezoneOffset;
-        Date.prototype.getTimezoneOffset = function() {
-          return spoofedOffset;
+        // Map of UTC offsets to IANA timezone identifiers
+        // Grouped by offset so we can pick a different zone with same offset
+        const timezonesByOffset = {
+          '-720': ['Pacific/Wake', 'Pacific/Wallis'],
+          '-660': ['Pacific/Midway', 'Pacific/Niue', 'Pacific/Pago_Pago'],
+          '-600': ['Pacific/Honolulu', 'Pacific/Rarotonga', 'Pacific/Tahiti'],
+          '-570': ['Pacific/Marquesas'],
+          '-540': ['America/Anchorage', 'America/Juneau', 'America/Nome', 'America/Sitka', 'America/Yakutat'],
+          '-480': ['America/Los_Angeles', 'America/Vancouver', 'America/Tijuana', 'America/Dawson', 'America/Whitehorse'],
+          '-420': ['America/Denver', 'America/Phoenix', 'America/Edmonton', 'America/Hermosillo', 'America/Chihuahua', 'America/Mazatlan'],
+          '-360': ['America/Chicago', 'America/Mexico_City', 'America/Regina', 'America/Winnipeg', 'America/Guatemala', 'America/Belize'],
+          '-300': ['America/New_York', 'America/Toronto', 'America/Havana', 'America/Panama', 'America/Lima', 'America/Bogota'],
+          '-240': ['America/Caracas', 'America/Halifax', 'America/Santiago', 'America/La_Paz', 'America/Manaus'],
+          '-210': ['America/St_Johns'],
+          '-180': ['America/Sao_Paulo', 'America/Argentina/Buenos_Aires', 'America/Montevideo', 'America/Godthab'],
+          '-120': ['Atlantic/South_Georgia'],
+          '-60': ['Atlantic/Azores', 'Atlantic/Cape_Verde'],
+          '0': ['Europe/London', 'Europe/Dublin', 'Europe/Lisbon', 'Africa/Casablanca', 'Atlantic/Reykjavik', 'UTC'],
+          '60': ['Europe/Paris', 'Europe/Berlin', 'Europe/Rome', 'Europe/Madrid', 'Europe/Brussels', 'Europe/Amsterdam', 'Europe/Stockholm', 'Africa/Lagos'],
+          '120': ['Europe/Athens', 'Europe/Helsinki', 'Europe/Kiev', 'Africa/Cairo', 'Asia/Jerusalem', 'Europe/Bucharest', 'Africa/Johannesburg'],
+          '180': ['Europe/Moscow', 'Asia/Baghdad', 'Asia/Riyadh', 'Africa/Nairobi', 'Asia/Kuwait'],
+          '210': ['Asia/Tehran'],
+          '240': ['Asia/Dubai', 'Asia/Baku', 'Asia/Tbilisi', 'Asia/Muscat'],
+          '270': ['Asia/Kabul'],
+          '300': ['Asia/Karachi', 'Asia/Tashkent', 'Asia/Yekaterinburg'],
+          '330': ['Asia/Kolkata', 'Asia/Colombo'],
+          '345': ['Asia/Kathmandu'],
+          '360': ['Asia/Dhaka', 'Asia/Almaty', 'Asia/Omsk'],
+          '390': ['Asia/Yangon'],
+          '420': ['Asia/Bangkok', 'Asia/Jakarta', 'Asia/Ho_Chi_Minh'],
+          '480': ['Asia/Shanghai', 'Asia/Hong_Kong', 'Asia/Singapore', 'Asia/Taipei', 'Asia/Manila', 'Australia/Perth'],
+          '540': ['Asia/Tokyo', 'Asia/Seoul', 'Asia/Pyongyang'],
+          '570': ['Australia/Adelaide', 'Australia/Darwin'],
+          '600': ['Australia/Sydney', 'Australia/Melbourne', 'Australia/Brisbane', 'Pacific/Guam'],
+          '630': ['Australia/Lord_Howe'],
+          '660': ['Pacific/Noumea', 'Pacific/Guadalcanal'],
+          '720': ['Pacific/Auckland', 'Pacific/Fiji'],
+          '780': ['Pacific/Tongatapu', 'Pacific/Apia']
         };
 
-        log('[fp][page][timezone] Spoofed offset:', spoofedOffset);
+        // Find timezones with the same offset as real timezone
+        const offsetKey = String(realOffset);
+        const availableZones = timezonesByOffset[offsetKey] || [];
+
+        if (availableZones.length > 0) {
+          // Pick a random timezone from the same offset group
+          const spoofedZone = availableZones[Math.floor(prng() * availableZones.length)];
+
+          // Hook Intl.DateTimeFormat to return spoofed timezone
+          const OrigDateTimeFormat = Intl.DateTimeFormat;
+          Intl.DateTimeFormat = function(...args) {
+            const instance = new OrigDateTimeFormat(...args);
+            const origResolvedOptions = instance.resolvedOptions;
+
+            instance.resolvedOptions = function() {
+              const options = origResolvedOptions.call(this);
+              options.timeZone = spoofedZone;
+              return options;
+            };
+
+            return instance;
+          };
+
+          // Copy static properties
+          Object.setPrototypeOf(Intl.DateTimeFormat, OrigDateTimeFormat);
+          Object.setPrototypeOf(Intl.DateTimeFormat.prototype, OrigDateTimeFormat.prototype);
+
+          log('[fp][page][timezone] Real offset:', realOffset, 'Spoofed zone:', spoofedZone);
+        } else {
+          log('[fp][page][timezone] No alternative timezones for offset:', realOffset);
+        }
       } catch (e) {
         log('[fp][page][timezone] Failed:', e);
       }
