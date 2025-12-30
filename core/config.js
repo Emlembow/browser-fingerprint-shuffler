@@ -56,6 +56,24 @@
       hideGamepads: true // Hide gamepad information
     },
 
+    // Touch capability protection
+    enableTouchProtection: true,
+
+    // User agent and platform protection
+    enableUserAgentProtection: true,
+
+    // Media codec and DRM protection
+    enableMediaProtection: true,
+
+    // Geolocation protection
+    enableGeolocationProtection: true,
+    geolocation: {
+      noiseLevel: 0.001 // ~100m noise (0.01 = ~1km, 0.0001 = ~10m)
+    },
+
+    // Detection resistance (ad blocker, incognito, extension detection)
+    enableDetectionResistance: true,
+
     // Cryptographic strengthening
     useStrongKDF: true, // Use PBKDF2-style key derivation (recommended)
     kdfIterations: 1000, // Number of hash iterations for seed derivation

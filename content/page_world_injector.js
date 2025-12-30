@@ -110,7 +110,7 @@
 
         HTMLCanvasElement.prototype.toDataURL = function() {
           try {
-            const ctx = this.getContext('2d');
+            const ctx = this.getContext('2d', { willReadFrequently: true });
             if (ctx) {
               const imgData = noisedImageData(ctx, 0, 0, this.width, this.height);
               ctx.putImageData(imgData, 0, 0);
@@ -121,7 +121,7 @@
 
         HTMLCanvasElement.prototype.toBlob = function() {
           try {
-            const ctx = this.getContext('2d');
+            const ctx = this.getContext('2d', { willReadFrequently: true });
             if (ctx) {
               const imgData = noisedImageData(ctx, 0, 0, this.width, this.height);
               ctx.putImageData(imgData, 0, 0);
