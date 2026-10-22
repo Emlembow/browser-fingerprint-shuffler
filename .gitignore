@@ -29,3 +29,6 @@ coverage/
 .env.local
 .env.*.local
 *.zip
+
+# Commit the audited npm dependency graph.
+!/package-lock.json
